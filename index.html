@@ -10,22 +10,29 @@
 
   <!-- ================= HEADER + SEARCH ================= -->
   <header class="topbar">
-    <h1>🎵 PulseTube <span>(simple version)</span></h1>
+    <h1>🎵 PulseTube</h1>
     <form id="searchForm">
       <input id="searchInput" type="text" placeholder="Search a song or artist..." autocomplete="off" />
       <button type="submit">Search</button>
     </form>
   </header>
 
-  <!-- ================= SEARCH RESULTS ================= -->
-  <!-- This empty div gets filled with song cards by app.js -->
-  <main id="results" class="results">
-    <p class="hint">Search for a song above to get started.</p>
+  <!-- ================= RESULTS ================= -->
+  <!-- resultsHeading changes text depending on whether we're showing   -->
+  <!-- home recommendations or actual search results. resultsEl gets    -->
+  <!-- filled with song cards by app.js either way.                     -->
+  <main>
+    <h2 id="resultsHeading" class="section-heading">Trending now</h2>
+    <div id="results" class="results">
+      <p class="hint">Loading recommendations...</p>
+    </div>
   </main>
 
   <!-- ================= BOTTOM PLAYER BAR ================= -->
   <footer class="player-bar">
-    <img id="playerThumb" alt="" />
+    <div class="thumb-wrap">
+      <img id="playerThumb" alt="" hidden />
+    </div>
     <div class="player-info">
       <strong id="playerTitle">No song playing</strong>
       <span id="playerChannel">—</span>
