@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PulseTube — Simple</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ================= HEADER + SEARCH ================= -->
+  <header class="topbar">
+    <h1>🎵 PulseTube <span>(simple version)</span></h1>
+    <form id="searchForm">
+      <input id="searchInput" type="text" placeholder="Search a song or artist..." autocomplete="off" />
+      <button type="submit">Search</button>
+    </form>
+  </header>
+
+  <!-- ================= SEARCH RESULTS ================= -->
+  <!-- This empty div gets filled with song cards by app.js -->
+  <main id="results" class="results">
+    <p class="hint">Search for a song above to get started.</p>
+  </main>
+
+  <!-- ================= BOTTOM PLAYER BAR ================= -->
+  <footer class="player-bar">
+    <img id="playerThumb" alt="" />
+    <div class="player-info">
+      <strong id="playerTitle">No song playing</strong>
+      <span id="playerChannel">—</span>
+    </div>
+    <div class="player-controls">
+      <button id="prevBtn">⏮ Prev</button>
+      <button id="playPauseBtn">▶ Play</button>
+      <button id="nextBtn">Next ⏭</button>
+    </div>
+
+    <!-- The real YouTube video lives inside this div.       -->
+    <!-- The IFrame Player API creates the player here.      -->
+    <!-- We make it tiny with CSS — we only need the AUDIO.  -->
+    <div id="youtube-player"></div>
+  </footer>
+
+  <!-- Load the official YouTube IFrame Player API script -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+
+  <!-- Our own code, loaded as an ES module -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>

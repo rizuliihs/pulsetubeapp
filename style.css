@@ -1,0 +1,169 @@
+/* ===================================================================
+   Very simple styling — just enough to make it look decent.
+   No CSS variables, no animations, no dark-mode logic. On purpose.
+   =================================================================== */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: #0f1115;
+  color: #f2f2f2;
+  padding-bottom: 100px; /* leave room for the fixed player bar */
+}
+
+/* ---------- header / search ---------- */
+.topbar {
+  padding: 20px;
+  border-bottom: 1px solid #23262e;
+}
+
+.topbar h1 {
+  margin: 0 0 14px;
+  font-size: 22px;
+}
+
+.topbar h1 span {
+  font-size: 13px;
+  color: #8a8f98;
+  font-weight: normal;
+}
+
+#searchForm {
+  display: flex;
+  gap: 8px;
+  max-width: 500px;
+}
+
+#searchInput {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #2b2f38;
+  background: #171a20;
+  color: #fff;
+}
+
+#searchForm button {
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: none;
+  background: #3ddc84;
+  color: #052015;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ---------- results grid ---------- */
+.results {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.hint, .error, .empty {
+  grid-column: 1 / -1;
+  color: #8a8f98;
+}
+
+.error { color: #ff7468; }
+
+.card {
+  background: #171a20;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid #23262e;
+}
+
+.card:hover {
+  border-color: #3ddc84;
+}
+
+.card img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+}
+
+.card .info {
+  padding: 10px 12px;
+}
+
+.card h3 {
+  margin: 0 0 4px;
+  font-size: 14px;
+  line-height: 1.3;
+  /* clip long titles to 2 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card p {
+  margin: 0;
+  font-size: 12px;
+  color: #8a8f98;
+}
+
+/* ---------- bottom player bar ---------- */
+.player-bar {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  height: 80px;
+  background: #171a20;
+  border-top: 1px solid #23262e;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 16px;
+}
+
+#playerThumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 6px;
+  object-fit: cover;
+  background: #23262e;
+}
+
+.player-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.player-info strong {
+  display: block;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.player-info span {
+  font-size: 12px;
+  color: #8a8f98;
+}
+
+.player-controls button {
+  padding: 8px 12px;
+  margin-left: 6px;
+  border-radius: 6px;
+  border: 1px solid #2b2f38;
+  background: #0f1115;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* The actual YouTube <iframe> ends up inside this div.
+   We shrink it to 1x1 pixel — audio keeps playing regardless
+   of how small the video element is. */
+#youtube-player {
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
