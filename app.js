@@ -11,10 +11,12 @@
 
    The full version's guide explains WHY those extra pieces exist.
    This file is only about the two core ideas every part of that
-   app is built on:
+   app is built on, plus one small extra for a nicer first impression:
 
      1) Search YouTube for videos  (YouTube Data API v3)
      2) Play a video's audio       (YouTube IFrame Player API)
+     3) Show a small "Home" screen of results on page load, so the
+        page isn't blank before anyone has searched anything
    ===================================================================== */
 
 
@@ -29,9 +31,10 @@ const API_KEY = "AIzaSyC6p3nFVDYTqFg7bel2LPpJ9Nu54fexgJ0";
 // ---------------------------------------------------------------------
 // STEP 1 — Grab the HTML elements we'll be updating
 // ---------------------------------------------------------------------
-const searchForm    = document.getElementById("searchForm");
-const searchInput   = document.getElementById("searchInput");
-const resultsEl     = document.getElementById("results");
+const searchForm     = document.getElementById("searchForm");
+const searchInput    = document.getElementById("searchInput");
+const resultsEl      = document.getElementById("results");
+const resultsHeading = document.getElementById("resultsHeading");
 
 const playerThumb   = document.getElementById("playerThumb");
 const playerTitle   = document.getElementById("playerTitle");
@@ -84,8 +87,30 @@ async function searchYouTube(query) {
 
 
 // ---------------------------------------------------------------------
-// STEP 4 — Render search results as clickable cards
+// STEP 3B — Load a "Home" screen of recommendations on page load
 // ---------------------------------------------------------------------
+// Rather than starting on a totally blank page, we run one search for a
+// popular, generic query right away, so there's always something to look
+// at and click on before the person has typed anything themselves.
+const HOME_QUERIES = ["trending music", "top hits 2026", "popular songs"];
+
+async function loadHome() {
+  resultsHeading.textContent = "Trending now";
+  resultsEl.innerHTML = `<p class="hint">Loading recommendations...</p>`;
+
+  // Pick one query so home looks a little different each visit.
+  const query = HOME_QUERIES[Math.floor(Math.random() * HOME_QUERIES.length)];
+
+  try {
+    const songs = await searchYouTube(query);
+    renderResults(songs);
+  } catch (error) {
+    resultsEl.innerHTML = `<p class="error">${escapeHtml(error.message)}</p>`;
+  }
+}
+
+
+
 function renderResults(songs) {
   currentResults = songs;
 
@@ -131,6 +156,7 @@ searchForm.addEventListener("submit", async (event) => {
   const query = searchInput.value.trim();
   if (!query) return;
 
+  resultsHeading.textContent = `Results for "${query}"`;
   resultsEl.innerHTML = `<p class="hint">Searching...</p>`;
   try {
     const songs = await searchYouTube(query);
@@ -191,6 +217,7 @@ function playSongAt(index) {
 
   // Update the bottom player bar with this song's info.
   playerThumb.src = song.thumbnail;
+  playerThumb.hidden = false;   // reveal it — the placeholder icon shows through until now
   playerTitle.textContent = song.title;
   playerChannel.textContent = song.channel;
 
@@ -223,3 +250,9 @@ playPauseBtn.addEventListener("click", () => {
 
 nextBtn.addEventListener("click", playNext);
 prevBtn.addEventListener("click", playPrevious);
+
+
+// ---------------------------------------------------------------------
+// STEP 9 — Show something on screen the moment the page opens
+// ---------------------------------------------------------------------
+loadHome();
